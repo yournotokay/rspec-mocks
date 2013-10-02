@@ -65,7 +65,7 @@ module RSpec
     end
 
     # @private
-    class ClassMethodReference < MethodReference
+    class ObjectMethodReference < MethodReference
       private
       def method_implemented?(m)
         m.respond_to?(@method_name)

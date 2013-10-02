@@ -1,6 +1,27 @@
 module RSpec
   module Mocks
 
+    # An abstraction in front of objects so that non-loaded objects can be
+    # worked with. The null case is for concrete objects that are always
+    # loaded. See `ModuleReference` for an example of non-loaded objects.
+    class ObjectReference
+      def initialize(object)
+        @object = object
+      end
+
+      def name
+        @object.to_s
+      end
+
+      def defined?
+        true
+      end
+
+      def when_loaded(&block)
+        block.call @object
+      end
+    end
+
     # Provides a consistent interface for dealing with modules that may or may
     # not be defined.
     #
