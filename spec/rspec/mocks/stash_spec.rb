@@ -33,7 +33,7 @@ module RSpec
           end
         end
 
-        klass.should_receive(:alternate_new)
+        expect(klass).to receive(:alternate_new)
         expect(klass.alternate_new).to be_nil
 
         verify klass

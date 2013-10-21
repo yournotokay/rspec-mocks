@@ -31,7 +31,7 @@ describe RSpec::Mocks do
   describe "::verify" do
     it "delegates to the space" do
       foo = double
-      foo.should_receive(:bar)
+      expect(foo).to receive(:bar)
       expect do
         RSpec::Mocks::verify
       end.to raise_error(RSpec::Mocks::MockExpectationError)
@@ -41,7 +41,7 @@ describe RSpec::Mocks do
   describe "::teardown" do
     it "delegates to the space" do
       foo = double
-      foo.should_receive(:bar)
+      expect(foo).to receive(:bar)
       RSpec::Mocks::teardown
       expect do
         foo.bar

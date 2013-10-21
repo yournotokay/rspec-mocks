@@ -18,11 +18,11 @@ module RSpec
 
       it 'can be extended onto a module to make it a pure test double that can mock private methods' do
         double = Module.new
-        double.stub(:use)
+        allow(double).to receive(:use)
         expect { double.use }.to raise_error(/private method `use' called/)
 
         double = Module.new { TestDouble.extend_onto(self) }
-        double.should_receive(:use).and_return(:ok)
+        expect(double).to receive(:use).and_return(:ok)
         expect(double.use).to be(:ok)
       end
 

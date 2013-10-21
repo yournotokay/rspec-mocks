@@ -6,14 +6,14 @@ module RSpec
       let(:object) { Object.new }
 
       it "names the class in the failure message" do
-        object.should_receive(:foo)
+        expect(object).to receive(:foo)
         expect do
           verify object
         end.to raise_error(RSpec::Mocks::MockExpectationError, /\(#<Object:.*>\).foo/)
       end
 
       it "names the class in the failure message when expectation is on class" do
-        Object.should_receive(:foo)
+        expect(Object).to receive(:foo)
         expect {
           verify Object
         }.to raise_error(RSpec::Mocks::MockExpectationError, /<Object \(class\)>/)
@@ -129,13 +129,13 @@ module RSpec
       let(:proxy) { proxy_class.new(wrapped_object) }
 
       it 'works properly' do
-        proxy.should_receive(:proxied?).and_return(false)
+        expect(proxy).to receive(:proxied?).and_return(false)
         expect(proxy).not_to be_proxied
       end
 
       it 'does not confuse the proxy and the proxied object' do
-        proxy.stub(:foo).and_return(:proxy_foo)
-        wrapped_object.stub(:foo).and_return(:wrapped_foo)
+        allow(proxy).to receive(:foo).and_return(:proxy_foo)
+        allow(wrapped_object).to receive(:foo).and_return(:wrapped_foo)
 
         expect(proxy.foo).to eq(:proxy_foo)
         expect(wrapped_object.foo).to eq(:wrapped_foo)
@@ -160,9 +160,11 @@ module RSpec
         end
       end
 
-      it "does not raise an error when stubbing the object" do
-        o = klass.new :foo
-        expect { o.stub(:bar) }.not_to raise_error
+      it_behaves_like 'with syntax', :should do
+        it "does not raise an error when stubbing the object" do
+          o = klass.new :foo
+          expect { o.stub(:bar) }.not_to raise_error
+        end
       end
     end
 
